@@ -1,0 +1,66 @@
+schema_version: 1
+
+context:
+  python_min: "3.10"
+  version: "0.3.1.0"
+
+package:
+  name: napari-deeplabcut
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/n/napari-deeplabcut/napari_deeplabcut-${{ version }}.tar.gz
+  sha256: c4bc3a3643dd984f2045e59d5c06f299c7388fce1832ee7478ee0be7fddc5872
+
+build:
+  number: 0
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - setuptools >=77
+    - setuptools-scm >=7
+    - wheel
+    - pip
+  run:
+    - python >=${{ python_min }}
+    - dask-image
+    - matplotlib-base >=3.3
+    - napari ==0.6.6
+    - natsort
+    - numpy >=1.18.5,<2
+    - opencv
+    - pandas
+    - pyside6 >=6.4.2
+    - pyyaml
+    - qtpy >=2.4
+    - scikit-image
+    - scipy
+    - pytables
+
+tests:
+  - python:
+      imports:
+        - napari_deeplabcut
+  - requirements:
+      run:
+        - pip
+        - python ${{ python_min }}.*
+    script:
+      - pip check
+
+about:
+  summary: napari + DeepLabCut annotation tool
+  license: LGPL-3.0-only
+  license_file: LICENSE
+  homepage: https://pypi.org/project/napari-deeplabcut/
+  documentation: https://github.com/DeepLabCut/napari-deeplabcut
+
+extra:
+  recipe-maintainers:
+    - goanpeca
+    - jaimergp
+    - jeylau
+    - imagejan
